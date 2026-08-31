@@ -1,0 +1,21 @@
+# Secrets / env — NEVER commit these
+.env
+.env.*
+!.env.example
+
+# Go build artifacts
+*.exe
+*.test
+*.out
+/backend/api
+/backend/apollo
+bin/
+
+# Dependency dirs (Go uses the module cache, not vendored by default)
+vendor/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

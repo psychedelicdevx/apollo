@@ -1,0 +1,33 @@
+name: Apollo
+
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-apollo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-apollo}
+      POSTGRES_DB: ${POSTGRES_DB:-apollo}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-apollo}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # api: add back when backend/Dockerfile exists
+  #   build: ./backend
+  #   environment:
+  #     DATABASE_URL: postgres://${POSTGRES_USER:-apollo}:${POSTGRES_PASSWORD:-apollo}@db:5432/${POSTGRES_DB:-apollo}?sslmode=disable
+  #     JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
+  #     PORT: ${PORT:-8080}
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+
+volumes:
+  pgdata:
